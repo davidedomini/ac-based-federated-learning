@@ -1,0 +1,26 @@
+incarnation: scafi
+
+network-model:
+  type: ClosestN
+  parameters: [ 5 ]
+
+environment:
+  type: Continuous2DEnvironment
+  parameters: []
+
+_reactions:
+  - program: &program
+      - time-distribution:
+          type: DiracComb
+          parameters: [ 0.0,  1.0 ]
+        type: Event
+        actions:
+          - type: RunScafiProgram
+            parameters: [ it.unibo.ScafiLogic, 1.1 ]
+      - program: send
+
+deployments:
+  type: Grid
+  parameters: [-2, -2, 2, 2, 2, 1, 1, 1]
+  programs:
+    - *program
