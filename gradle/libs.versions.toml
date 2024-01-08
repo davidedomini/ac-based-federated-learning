@@ -1,6 +1,6 @@
 [versions]
 junit = "5.9.2"
-alchemist = "29.3.4"
+alchemist = "25.14.6"
 scalapy = "0.5.3"
 scala2 = "2.13.10"
 junitCore = "4.13.2"
