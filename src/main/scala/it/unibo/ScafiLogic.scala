@@ -8,18 +8,22 @@ class ScafiLogic
     with ScafiAlchemistSupport
     with FieldUtils {
 
-  private var model: Seq[Double] = Seq(2.1, 45.5, 1.0, 3.2) //TODO - this should be a real model :)
-
   override def main(): Unit = {
-    val newModel = learn(model)
-    val aggregatedModel = foldhoodPlus(newModel)((a,b) => modelsFusion(a,b))(nbr(newModel))
-    model = aggregatedModel
-    //data export
-    node.put("model", model)
-    node.put("model size", model.size)
+    val initialModel = Seq(mid().toDouble) // TODO - this should be a real model :)
+    rep(initialModel) { m =>
+      val newModel = learn(m)
+      val aggregatedModel = foldhoodPlus(newModel)((a,b) => modelsFusion(a,b))(nbr(newModel))
+      //data export
+      node.put("model", aggregatedModel.distinct.sorted)
+      node.put("model size", aggregatedModel.distinct.size)
+      aggregatedModel
+    }
   }
 
-  private def modelsFusion(m1: Seq[Double], m2: Seq[Double]): Seq[Double] = ???
-  private def learn(m: Seq[Double]): Seq[Double] = ???
+  // TODO - implement {full average, mutual knowledge transfer} algorithm
+  private def modelsFusion(m1: Seq[Double], m2: Seq[Double]): Seq[Double] = m1 ++ m2
+
+  // TODO - implement SDG 
+  private def learn(m: Seq[Double]): Seq[Double] = m
 
 }
