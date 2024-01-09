@@ -9,7 +9,7 @@ class AggregateLogic
     with FieldUtils {
 
   override def main(): Unit = {
-    val initialModel = Seq(mid().toDouble) // TODO - this should be the real model :)
+    val initialModel = Seq[Double]() // TODO - this should be the real model :)
     rep(initialModel) { m =>
       val newModel = learn(m)
       val aggregatedModel = foldhoodPlus(newModel)((a,b) => modelsFusion(a,b))(nbr(newModel))
@@ -22,10 +22,10 @@ class AggregateLogic
   }
 
   // TODO - implement {full average, mutual knowledge transfer} algorithm
-  private def modelsFusion(m1: Seq[Double], m2: Seq[Double]): Seq[Double] = m1 ++ m2
+  private def modelsFusion(m1: Seq[Double], m2: Seq[Double]): Seq[Double] = ???
 
   // TODO - implement SDG
-  private def learn(m: Seq[Double]): Seq[Double] = m
+  private def learn(m: Seq[Double]): Seq[Double] = ???
 
   // TODO
   private def evaluate(m: Seq[Double]): Evaluation = ???
