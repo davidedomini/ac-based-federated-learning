@@ -13,9 +13,10 @@ class ScafiLogic
     rep(initialModel) { m =>
       val newModel = learn(m)
       val aggregatedModel = foldhoodPlus(newModel)((a,b) => modelsFusion(a,b))(nbr(newModel))
+      val eval = evaluate(aggregatedModel)
       //data export
-      node.put("model", aggregatedModel.distinct.sorted)
-      node.put("model size", aggregatedModel.distinct.size)
+      node.put("Accuracy", eval.accuracy)
+      node.put("Loss", eval.loss)
       aggregatedModel
     }
   }
@@ -23,7 +24,9 @@ class ScafiLogic
   // TODO - implement {full average, mutual knowledge transfer} algorithm
   private def modelsFusion(m1: Seq[Double], m2: Seq[Double]): Seq[Double] = m1 ++ m2
 
-  // TODO - implement SDG 
+  // TODO - implement SDG
   private def learn(m: Seq[Double]): Seq[Double] = m
 
+  // TODO
+  private def evaluate(m: Seq[Double]): Evaluation = ???
 }
