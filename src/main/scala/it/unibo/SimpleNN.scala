@@ -1,11 +1,10 @@
 package it.unibo
 
 import me.shadaj.scalapy.py
+import PythonModules._
 
 object SimpleNN {
 
-  private val nn = py.module("torch.nn")
-  private val torch = py.module("torch")
   private val autodiffDevice =
     if (torch.cuda.is_available().as[Boolean]) {"cuda"} else {"cpu"}
 
