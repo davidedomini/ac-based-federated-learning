@@ -2,14 +2,14 @@ package it.unibo
 
 import it.unibo.alchemist.model.scafi.ScafiIncarnationForAlchemist._
 
-class ScafiLogic
+class AggregateLogic
   extends AggregateProgram
     with StandardSensors
     with ScafiAlchemistSupport
     with FieldUtils {
 
   override def main(): Unit = {
-    val initialModel = Seq(mid().toDouble) // TODO - this should be a real model :)
+    val initialModel = Seq(mid().toDouble) // TODO - this should be the real model :)
     rep(initialModel) { m =>
       val newModel = learn(m)
       val aggregatedModel = foldhoodPlus(newModel)((a,b) => modelsFusion(a,b))(nbr(newModel))
