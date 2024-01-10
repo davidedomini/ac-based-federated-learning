@@ -1,6 +1,7 @@
 package it.unibo
 
 import it.unibo.alchemist.model.scafi.ScafiIncarnationForAlchemist._
+import me.shadaj.scalapy.py
 
 class AggregateLogic
   extends AggregateProgram
@@ -9,12 +10,12 @@ class AggregateLogic
     with FieldUtils {
 
   override def main(): Unit = {
-    val initialModel = Seq[Double]() // TODO - this should be the real model :)
+    val initialModel = SimpleNN(5, 20, 3) // TODO
 
     rep(initialModel) { m =>
       val newModel = learn(m)
       val neighborsModels =
-        foldhood(Seq[Seq[Double]]())(_ ++ _)(nbr(Seq(newModel)))
+        foldhood(Seq[py.Dynamic]())(_ ++ _)(nbr(Seq(newModel.state_dict())))
       val aggregatedModel = modelsFusion(neighborsModels)
       val eval = evaluate(aggregatedModel)
       //data export
@@ -24,12 +25,19 @@ class AggregateLogic
     }
   }
 
-  // TODO - implement {full average, mutual knowledge transfer} algorithm
-  private def modelsFusion(models: Seq[Seq[Double]]): Seq[Double] = ???
-
-  // TODO - implement SDG
-  private def learn(m: Seq[Double]): Seq[Double] = ???
+  private def modelsFusion(models: Seq[py.Dynamic]): py.Dynamic = {
+    val summedModels = models.reduce(elementByElementSum)
+    val averageModel = avgModel(summedModels, models.size)
+    averageModel
+  }
 
   // TODO
-  private def evaluate(m: Seq[Double]): Evaluation = ???
+  private def elementByElementSum(m1: py.Dynamic, m2: py.Dynamic): py.Dynamic = ???
+  private def avgModel(m: py.Dynamic, k: Int): py.Dynamic = ???
+  
+  // TODO - implement SDG
+  private def learn(m: py.Dynamic): py.Dynamic = ???
+
+  // TODO
+  private def evaluate(m: py.Dynamic): Evaluation = ???
 }
