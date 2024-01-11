@@ -15,7 +15,7 @@ class AggregateLogic
     rep(initialModel) { m =>
       val newModel = learn(m)
       val neighborsModels =
-        foldhood(Seq[py.Dynamic]())(_ ++ _)(nbr(Seq(newModel.state_dict())))
+        foldhood(Seq[py.Dynamic]())(_ ++ _)(nbr(Seq(modelSampling(newModel))))
       val aggregatedModel = modelsFusion(neighborsModels)
       val eval = evaluate(aggregatedModel)
       //data export
@@ -31,10 +31,14 @@ class AggregateLogic
     averageModel
   }
 
+  private def modelSampling(model: py.Dynamic): py.Dynamic = {
+    model.state_dict()
+  }
+
   // TODO
   private def elementByElementSum(m1: py.Dynamic, m2: py.Dynamic): py.Dynamic = ???
   private def avgModel(m: py.Dynamic, k: Int): py.Dynamic = ???
-  
+
   // TODO - implement SDG
   private def learn(m: py.Dynamic): py.Dynamic = ???
 
