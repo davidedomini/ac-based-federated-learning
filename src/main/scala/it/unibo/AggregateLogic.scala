@@ -15,7 +15,7 @@ class AggregateLogic
   private val hidden = 20
   private val output = 3
   private val epochs = 5
-  private val initialModel = MNISTNN(1, 10)
+  private val initialModel = utils.mnist_cnn_factory()
   private val writer = log.SummaryWriter()
 
   override def main(): Unit = {
@@ -43,7 +43,7 @@ class AggregateLogic
 
   private def modelsFusion(models: Seq[py.Dynamic]): py.Dynamic = {
     val w_avg = utils.average_weights(models.toPythonProxy)
-    val am = MNISTNN(1, 10) // fresh network
+    val am = utils.mnist_cnn_factory() // fresh network
     am.load_state_dict(w_avg)
     am
   }
@@ -54,11 +54,11 @@ class AggregateLogic
 
   private def learn(model: py.Dynamic, trainDataset: py.Dynamic, dataDivison: py.Dynamic, tick: Int): py.Dynamic = {
     val trainloader = utils.train_data_loader(trainDataset, dataDivison)
-    val result = utils.update_weigths(model, epochs, trainloader, "cpu") // result = (newWeights, loss)
+    val result = utils.update_weights(model, epochs, trainloader, "cpu") // result = (newWeights, loss)
     val newWeights = py"$result[0]"
     val loss = py"$result[1]"
     writer.add_scalar("loss", loss, tick)
-    val newModel =  MNISTNN(1, 10)
+    val newModel = utils.mnist_cnn_factory() // fresh network
     newModel.load_state_dict(newWeights)
     newModel
   }

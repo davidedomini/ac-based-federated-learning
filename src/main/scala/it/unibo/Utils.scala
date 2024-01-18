@@ -6,7 +6,7 @@ import me.shadaj.scalapy.py
 object Utils {
 
   def getDataset(id: Int) = {
-    val apply_transform = torchvision.transforms.toTensor()
+    val apply_transform = torchvision.transforms.ToTensor()
     val trainDataset = torchvision
       .datasets
       .MNIST(
