@@ -5,6 +5,8 @@ import me.shadaj.scalapy.py
 import me.shadaj.scalapy.py.PyQuote
 import PythonModules._
 
+import java.text.SimpleDateFormat
+
 class AggregateLogic
   extends AggregateProgram
     with StandardSensors
@@ -17,6 +19,8 @@ class AggregateLogic
   private val epochs = 5
   private val initialModel = MNISTNN(1, 10)
   private val writer = log.SummaryWriter()
+
+
 
   override def main(): Unit = {
 
@@ -36,6 +40,7 @@ class AggregateLogic
       node.put("Learning tick", actualTick)
       node.put("Accuracy", accuracy)
       node.put("Loss", loss)
+      snapshot(aggregatedModel, actualTick, mid())
       (aggregatedModel, actualTick+1)
     }
   }
@@ -66,6 +71,13 @@ class AggregateLogic
     val validloader = utils.val_data_loader(dataset, dataDivison)
     val evaluationResult = utils.evaluate(model, validloader, "cpu")
     evaluationResult
+  }
+
+  private def snapshot(model: py.Dynamic, actualTick: Int, id: Int): Unit = {
+    torch.save(
+      model.state_dict(),
+      s"networks/agent$id-network$actualTick"
+    )
   }
 
 }
