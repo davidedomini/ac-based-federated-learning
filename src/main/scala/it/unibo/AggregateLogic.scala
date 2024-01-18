@@ -42,7 +42,7 @@ class AggregateLogic
 
   private def modelsFusion(models: Seq[py.Dynamic]): py.Dynamic = {
     val w_avg = utils.average_weights(models.toPythonProxy)
-    val am = SimpleNN(input, hidden, output) // fresh network
+    val am = MNISTNN(1, 10) // fresh network
     am.load_state_dict(w_avg)
     am
   }
