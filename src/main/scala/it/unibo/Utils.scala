@@ -30,7 +30,4 @@ object Utils {
     (trainDataset, testDataset, dataDivision)
   }
 
-  // TODO
-  def trainingDataLoader(): py.Dynamic = ???
-
 }
