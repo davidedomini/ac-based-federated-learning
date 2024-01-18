@@ -5,8 +5,6 @@ import me.shadaj.scalapy.py
 import me.shadaj.scalapy.py.PyQuote
 import PythonModules._
 
-import java.text.SimpleDateFormat
-
 class AggregateLogic
   extends AggregateProgram
     with StandardSensors
@@ -19,8 +17,6 @@ class AggregateLogic
   private val epochs = 5
   private val initialModel = MNISTNN(1, 10)
   private val writer = log.SummaryWriter()
-
-
 
   override def main(): Unit = {
 
