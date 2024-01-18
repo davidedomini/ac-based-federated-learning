@@ -7,4 +7,5 @@ object PythonModules {
   val torch: py.Module = py.module("torch")
   val utils: py.Module = py.module("FLutils")
   val torchvision: py.Module = py.module("torchvision")
+  val log = py.module("torch.utils.tensorboard")
 }
