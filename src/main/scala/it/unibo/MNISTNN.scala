@@ -10,7 +10,7 @@ object MNISTNN {
 
   def apply(input: Int, output: Int): py.Dynamic = {
 
-    val lambda = (x: py.Dynamic) => {
+    val reshapingStrategy = (x: py.Dynamic) => {
       val s1 = py"$x.shape[1]"
       val s2 = py"$x.shape[2]"
       val s3 = py"$x.shape[3]"
@@ -26,7 +26,7 @@ object MNISTNN {
         nn.conv2_drop().to(autodiffDevice),
         nn.Functional.max_pool2d(kernel_size=2).to(autodiffDevice),
         nn.Functional.relu().to(autodiffDevice),
-        torchvision.transforms.Lambda(lambda),
+        torchvision.transforms.Lambda(reshapingStrategy),
         nn.Linear(320, 50).to(autodiffDevice),
         nn.Functional.relu().to(autodiffDevice),
         nn.Functional.dropout(training=py"self.training").to(autodiffDevice),
