@@ -54,7 +54,7 @@ class AggregateLogic
 
   private def learn(model: py.Dynamic, trainDataset: py.Dynamic, dataDivison: py.Dynamic, tick: Int): py.Dynamic = {
     val trainloader = utils.train_data_loader(trainDataset, dataDivison)
-    val result = utils.update_weights(model, epochs, trainloader, "gpu") // result = (newWeights, loss)
+    val result = utils.update_weights(model, epochs, trainloader, "cuda") // result = (newWeights, loss)
     val newWeights = py"$result[0]"
     val loss = py"$result[1]"
     writer.add_scalar("loss", loss, tick)
@@ -65,7 +65,7 @@ class AggregateLogic
   
   private def evaluate(model: py.Dynamic, dataset: py.Dynamic, dataDivison: py.Dynamic): py.Dynamic = {
     val validloader = utils.val_data_loader(dataset, dataDivison)
-    val evaluationResult = utils.evaluate(model, validloader, "gpu")
+    val evaluationResult = utils.evaluate(model, validloader, "cuda")
     evaluationResult
   }
 
