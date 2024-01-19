@@ -24,3 +24,18 @@ deployments:
   parameters: [-2, -2, 2, 2, 2, 1, 1, 1]
   programs:
     - *program
+
+export:
+  - type: CSVExporter
+    parameters:
+      fileNameRoot: "simulation"
+      exportPath: "alchemist-data/"
+      interval: 1
+    data:
+      - time
+      - molecule: Accuracy
+        value-filter: onlyfinite
+        aggregators: [ min, max, mean ]
+      - molecule: Loss
+        value-filter: onlyfinite
+        aggregators: [ min, max, mean ]
