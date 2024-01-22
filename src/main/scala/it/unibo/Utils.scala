@@ -25,7 +25,7 @@ object Utils {
         transform = apply_transform
       )
 
-    val dataDivision = utils.load_data_division("data/data_division.json", id)
+    val dataDivision = utils.load_data_division("data/data_division_iid.json", id)
 
     (trainDataset, testDataset, dataDivision)
   }
