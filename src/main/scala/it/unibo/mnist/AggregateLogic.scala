@@ -1,7 +1,7 @@
 package it.unibo.mnist
 
 import it.unibo.alchemist.model.scafi.ScafiIncarnationForAlchemist._
-import it.unibo.mnist.PythonModules._
+import it.unibo.common.PythonModules._
 import me.shadaj.scalapy.py
 import me.shadaj.scalapy.py.PyQuote
 

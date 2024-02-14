@@ -1,6 +1,6 @@
 package it.unibo.mnist
 
-import PythonModules._
+import it.unibo.common.PythonModules._
 
 object Utils {
 

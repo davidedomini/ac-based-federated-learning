@@ -2,7 +2,7 @@ package it.unibo.mnist
 
 import me.shadaj.scalapy.py
 import me.shadaj.scalapy.py.PyQuote
-import PythonModules._
+import it.unibo.common.PythonModules._
 
 
 object MNISTNN {

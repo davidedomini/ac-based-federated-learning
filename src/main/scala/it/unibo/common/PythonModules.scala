@@ -1,4 +1,4 @@
-package it.unibo.mnist
+package it.unibo.common
 
 import me.shadaj.scalapy.py
 

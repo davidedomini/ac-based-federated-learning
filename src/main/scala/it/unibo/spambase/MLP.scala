@@ -1,10 +1,9 @@
-package it.unibo.mnist
+package it.unibo.spambase
 
+import it.unibo.common.PythonModules.{nn, torch}
 import me.shadaj.scalapy.py
 
-import PythonModules._
-
-object SimpleNN {
+object MLP {
 
   private val autodiffDevice =
     if (torch.cuda.is_available().as[Boolean]) {
