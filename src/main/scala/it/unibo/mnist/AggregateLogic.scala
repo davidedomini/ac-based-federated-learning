@@ -1,9 +1,9 @@
-package it.unibo
+package it.unibo.mnist
 
 import it.unibo.alchemist.model.scafi.ScafiIncarnationForAlchemist._
+import it.unibo.mnist.PythonModules._
 import me.shadaj.scalapy.py
 import me.shadaj.scalapy.py.PyQuote
-import PythonModules._
 
 class AggregateLogic
   extends AggregateProgram
@@ -16,7 +16,6 @@ class AggregateLogic
   private val output = 3
   private val epochs = 5
   private val initialModel = utils.mnist_cnn_factory()
-  private val writer = log.SummaryWriter()
 
   override def main(): Unit = {
 
@@ -25,7 +24,7 @@ class AggregateLogic
     rep((initialModel, 0)) { p =>
       val m = p._1
       val actualTick = p._2
-      val newModel = learn(m, trainDataset, dataDivision, actualTick)
+      val (newModel, trainLoss) = learn(m, trainDataset, dataDivision)
       val neighborsModels =
         foldhood(Seq[py.Dynamic]())(_ ++ _)(nbr(Seq(modelSampling(newModel))))
       val aggregatedModel = modelsFusion(neighborsModels)
@@ -33,7 +32,7 @@ class AggregateLogic
       //data export
       val accuracy = py"$eval[0]"
       val loss = py"$eval[1]"
-      //node.put("Learning tick", actualTick)
+      node.put("Train loss", trainLoss.as[Double])
       node.put("Accuracy", accuracy.as[Double])
       node.put("Loss", loss.as[Double])
       snapshot(aggregatedModel, actualTick, mid())
@@ -52,15 +51,14 @@ class AggregateLogic
     model.state_dict()
   }
 
-  private def learn(model: py.Dynamic, trainDataset: py.Dynamic, dataDivison: py.Dynamic, tick: Int): py.Dynamic = {
+  private def learn(model: py.Dynamic, trainDataset: py.Dynamic, dataDivison: py.Dynamic): (py.Dynamic, py.Dynamic) = {
     val trainloader = utils.train_data_loader(trainDataset, dataDivison)
     val result = utils.update_weights(model, epochs, trainloader, "cpu") // result = (newWeights, loss)
     val newWeights = py"$result[0]"
     val loss = py"$result[1]"
-    writer.add_scalar("loss", loss, tick)
     val newModel = utils.mnist_cnn_factory() // fresh network
     newModel.load_state_dict(newWeights)
-    newModel
+    (newModel, loss)
   }
   
   private def evaluate(model: py.Dynamic, dataset: py.Dynamic, dataDivison: py.Dynamic): py.Dynamic = {

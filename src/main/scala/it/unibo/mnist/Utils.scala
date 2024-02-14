@@ -1,7 +1,6 @@
-package it.unibo
+package it.unibo.mnist
 
 import PythonModules._
-import me.shadaj.scalapy.py
 
 object Utils {
 
@@ -12,11 +11,11 @@ object Utils {
       .MNIST(
         "data/mnist/",
         train = true,
-        download=true,
-        transform=apply_transform
+        download = true,
+        transform = apply_transform
       )
 
-    val testDataset =torchvision
+    val testDataset = torchvision
       .datasets
       .MNIST(
         "data/mnist/",

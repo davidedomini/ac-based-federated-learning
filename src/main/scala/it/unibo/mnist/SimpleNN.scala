@@ -1,12 +1,17 @@
-package it.unibo
+package it.unibo.mnist
 
 import me.shadaj.scalapy.py
+
 import PythonModules._
 
 object SimpleNN {
 
   private val autodiffDevice =
-    if (torch.cuda.is_available().as[Boolean]) {"cuda"} else {"cpu"}
+    if (torch.cuda.is_available().as[Boolean]) {
+      "cuda"
+    } else {
+      "cpu"
+    }
 
   def apply(input: Int, hidden: Int, output: Int): py.Dynamic = {
     nn
