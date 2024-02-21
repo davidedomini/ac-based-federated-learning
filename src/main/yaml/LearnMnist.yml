@@ -39,3 +39,6 @@ export:
       - molecule: Loss
         value-filter: onlyfinite
         aggregators: [ min, max, mean ]
+      - molecule: TrainLoss
+        value-filter: onlyfinite
+        aggregators: [ min, max, mean ]
