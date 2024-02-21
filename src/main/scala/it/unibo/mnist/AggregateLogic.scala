@@ -19,7 +19,7 @@ class AggregateLogic
 
   override def main(): Unit = {
 
-    val (trainDataset, testDataset, dataDivision) = Utils.getDataset(mid()) // TODO - could be a performance issue
+    val (trainDataset, testDataset, dataDivision) = Utils.getDataset(mid())
 
     rep((initialModel, 0)) { p =>
       val m = p._1
@@ -32,7 +32,7 @@ class AggregateLogic
       //data export
       val accuracy = py"$eval[0]"
       val loss = py"$eval[1]"
-      node.put("Train loss", trainLoss.as[Double])
+      node.put("TrainLoss", trainLoss.as[Double])
       node.put("Accuracy", accuracy.as[Double])
       node.put("Loss", loss.as[Double])
       snapshot(aggregatedModel, actualTick, mid())
@@ -46,7 +46,7 @@ class AggregateLogic
     am.load_state_dict(w_avg)
     am
   }
-
+ 
   private def modelSampling(model: py.Dynamic): py.Dynamic = {
     model.state_dict()
   }

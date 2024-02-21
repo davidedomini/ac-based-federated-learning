@@ -20,7 +20,7 @@ object Utils {
       .MNIST(
         "data/mnist/",
         train = true,
-        download = false,
+        download = true,
         transform = apply_transform
       )
 
