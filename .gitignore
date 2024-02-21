@@ -35,7 +35,6 @@ bin/
 .DS_Store
 
 networks-iid.tar.gz
-networks/
 runs/
 data/
 alchemist-data/
