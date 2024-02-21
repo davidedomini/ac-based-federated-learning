@@ -66,3 +66,4 @@ File(rootProject.rootDir.path + "/src/main/yaml").listFiles()
             outputs.dir(exportsDir)
         }
     }
+
