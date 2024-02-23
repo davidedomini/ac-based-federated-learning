@@ -31,7 +31,7 @@ deployments:
 export:
   - type: CSVExporter
     parameters:
-      fileNameRoot: "simulation"
+      fileNameRoot: "simulation_mnist"
       exportPath: "alchemist-data/"
       interval: 1
     data:
