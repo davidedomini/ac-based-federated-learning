@@ -1,0 +1,51 @@
+incarnation: scafi
+
+network-model:
+  type: ClosestN
+  parameters: [ 5 ]
+
+environment:
+  type: Continuous2DEnvironment
+  parameters: []
+
+_reactions:
+  - program: &program
+      - time-distribution:
+          type: DiracComb
+          parameters: [ 0.0,  1.0 ]
+        type: Event
+        actions:
+          - type: RunScafiProgram
+            parameters: [ it.unibo.mnist.AggregateLogic, 1.1 ]
+      - program: send
+
+deployments:
+  type: Grid
+  parameters: [-2, -2, 2, 2, 2, 1, 1, 1]
+  programs:
+    - *program
+  contents:
+    - molecule: experiment
+      concentration: 1
+
+export:
+  - type: CSVExporter
+    parameters:
+      fileNameRoot: "simulation"
+      exportPath: "alchemist-data/"
+      interval: 1
+    data:
+      - time
+      - molecule: Accuracy
+        value-filter: onlyfinite
+        aggregators: [ min, max, mean ]
+      - molecule: Loss
+        value-filter: onlyfinite
+        aggregators: [ min, max, mean ]
+      - molecule: TrainLoss
+        value-filter: onlyfinite
+        aggregators: [ min, max, mean ]
+
+terminate:
+  - type: AfterTime
+    parameters: 16
