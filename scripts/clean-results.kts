@@ -13,8 +13,8 @@ fun clean(lines: List<String>): List<String> {
 
 val dir = "../alchemist-data/"
 val paths = listOf(
-    dir + "simulation_MNIST.csv",
-    dir + "simulation.csv"
+    dir + "simulation_mnist.csv",
+    dir + "simulation_fashion.csv"
 )
 
 paths
