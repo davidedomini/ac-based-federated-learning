@@ -26,7 +26,7 @@ deployments:
     - *program
   contents:
     - molecule: experiment
-      concentration: 1
+      concentration: 0
 
 export:
   - type: CSVExporter
