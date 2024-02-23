@@ -11,15 +11,12 @@ class AggregateLogic
     with ScafiAlchemistSupport
     with FieldUtils {
 
-  private val input = 5
-  private val hidden = 20
-  private val output = 3
-  private val epochs = 5
+  private val epochs = 2
   private val initialModel = utils.mnist_cnn_factory()
 
   override def main(): Unit = {
-
-    val (trainDataset, testDataset, dataDivision) = Utils.getDataset(mid())
+    val experiment: Integer = node.get("experiment").asInstanceOf[Integer]
+    val (trainDataset, testDataset, dataDivision) = Utils.getDataset(mid(), experiment)
 
     rep((initialModel, 0)) { p =>
       val m = p._1
@@ -38,6 +35,7 @@ class AggregateLogic
       snapshot(aggregatedModel, actualTick, mid())
       (aggregatedModel, actualTick+1)
     }
+
   }
 
   private def modelsFusion(models: Seq[py.Dynamic]): py.Dynamic = {
