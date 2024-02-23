@@ -45,3 +45,7 @@ export:
       - molecule: TrainLoss
         value-filter: onlyfinite
         aggregators: [ min, max, mean ]
+
+terminate:
+  - type: AfterTime
+    parameters: 16
